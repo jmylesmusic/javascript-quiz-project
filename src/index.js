@@ -70,9 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
   showQuestion();
 
   /************  TIMER  ************/
-
-  let timer;
-
+  let timer = setInterval(() => {
+    seconds++;
+  }, 1000);
   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
@@ -107,13 +107,16 @@ document.addEventListener("DOMContentLoaded", () => {
     questionContainer.innerText = question.text;
     // 2. Update the green progress bar
     // Update the green progress bar (div#progressBar) width so that it shows the percentage of questions answered
-    const percentage = (quiz.currentQuestionIndex / quiz.questions.length ) * 100;
+    const percentage =
+      (quiz.currentQuestionIndex / quiz.questions.length) * 100;
     progressBar.style.width = `${percentage}%`; // This value is hardcoded as a placeholder
 
     // 3. Update the question count text
     // Update the question count (div#questionCount) show the current question out of total questions
 
-    questionCount.innerText = `Question ${quiz.currentQuestionIndex + 1} of ${quiz.questions.length}`; //  This value is hardcoded as a placeholder
+    questionCount.innerText = `Question ${quiz.currentQuestionIndex + 1} of ${
+      quiz.questions.length
+    }`; //  This value is hardcoded as a placeholder
 
     // 4. Create and display new radio input element with a label for each choice.
     // Loop through the current question `choices`.
@@ -156,15 +159,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (choice.checked) {
         selectedAnswer = choice.value;
       }
-    })
+    });
 
     // 3. If an answer is selected (`selectedAnswer`), check if it is correct and move to the next question
     // Check if selected answer is correct by calling the quiz method `checkAnswer()` with the selected answer.
     // Move to the next question by calling the quiz method `moveToNextQuestion()`.
     // Show the next question by calling the function `showQuestion()`.
-   quiz.checkAnswer(selectedAnswer);
-   quiz.moveToNextQuestion();
-   showQuestion();
+    quiz.checkAnswer(selectedAnswer);
+    quiz.moveToNextQuestion();
+    showQuestion();
   }
 
   function showResults() {
@@ -181,13 +184,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const restartButton = document.getElementById("restartButton");
-  restartButton.addEventListener('click', () => {
+  restartButton.addEventListener("click", () => {
     quiz.currentQuestionIndex = 0;
     quiz.correctAnswers = 0;
     quiz.shuffleQuestions();
     quizView.style.display = "block";
     endView.style.display = "none";
     quiz.showQuestion();
-  } )
-
+  });
 });
